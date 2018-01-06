@@ -1,0 +1,22 @@
+KERNEL!="sd*", GOTO="media_label_end"
+ENV{ID_TYPE}!="disk", GOTO="media_label_end"
+
+# IMPORT{program}="/sbin/blkid -o udev -p %N", ENV{name}="%E{ID_FS_LABEL}"
+IMPORT{program}="/usr/local/sbin/backup_device_probe.sh %N", ENV{name}="%E{LVM_VG_NAME}"
+# ENV{ID_FS_TYPE}=="", GOTO="media_label_end"
+
+# ENV{ID_FS_LABEL}!="EFI", GOTO="continue"
+# ENV{ID_PART_TABLE_TYPE}=="gpt", GOTO="media_label_end"
+
+# LABEL="continue"
+
+ENV{name}!="XXX_MY_VOLUME_NAME_XXX", GOTO="media_label_end"
+
+KERNEL=="sd*", SYMLINK+="usb-storage/%E{name}"
+
+ACTION=="add", RUN+="/usr/local/sbin/lvm_backup.sh %E{name}"
+# ACTION=="add", RUN+="/usr/bin/pmount -t %E{ID_FS_TYPE} %E{mode} %E{mode2} --noatime --umask 000 %k %E{name}"
+# ACTION=="add", RUN+="%E{mode3}"
+# ACTION=="remove", RUN+="/usr/bin/pumount --yes-I-really-want-lazy-unmount %E{name}"
+
+LABEL="media_label_end"
