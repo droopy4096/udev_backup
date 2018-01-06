@@ -1,4 +1,4 @@
-Inspired by `doozan forum post <post: https://forum.doozan.com/read.php?2,24139,24244,quote=1>`_
+Inspired by `doozan forum post <https://forum.doozan.com/read.php?2,24139,24244,quote=1>`_
 
 Requirements
 ============
