@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  vars:
+    apt_packages:
+      - jq
+      - rsync 
+    rpm_packages:
+      - jq
+      - rsync
+
+  tasks:
+    - include: "install-{{ ansible_pkg_mgr }}.yml"
+
