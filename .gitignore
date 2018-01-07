@@ -1,2 +1,4 @@
 .*.sw?
 *.rules
+.vscode
+*.retry

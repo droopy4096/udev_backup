@@ -2,13 +2,24 @@
 
 - hosts: all
   vars:
+    udev_rules_dir: /etc/udev/rules.d
     apt_packages:
       - jq
       - rsync 
     rpm_packages:
       - jq
       - rsync
+  vars_prompt:
+    - name: "backup_volume_group_name"
+      prompt: "Backup VG name:"
 
   tasks:
     - include: "install-{{ ansible_pkg_mgr }}.yml"
-
+    - name: create udev rules directory
+      file: path={{ udev_rules_dir }} state=directory
+    - name: install udev rules
+      template: src=80-backup.rules.j2 dest={{ udev_rules_dir }}/80-backup.rules
+      notify: reload udev
+  handlers:
+    - name: reload udev
+      service: name=udev state=restarted

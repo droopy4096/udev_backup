@@ -10,7 +10,7 @@ IMPORT{program}="/usr/local/sbin/backup_device_probe.sh %N", ENV{name}="%E{LVM_V
 
 # LABEL="continue"
 
-ENV{name}!="XXX_MY_VOLUME_NAME_XXX", GOTO="media_label_end"
+ENV{name}!="{{ backup_volume_group_name }} ", GOTO="media_label_end"
 
 KERNEL=="sd*", SYMLINK+="usb-storage/%E{name}"
 
