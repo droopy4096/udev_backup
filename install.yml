@@ -35,5 +35,4 @@
     - name: install backup script
       copy: src=lvm_backup.sh dest={{ backup_bin_dir }}/lvm_backup.sh
   handlers:
-    - name: reload udev
-      service: name=udev state=restarted
+    - include: handlers.yml

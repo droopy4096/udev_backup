@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+    - name: uninstall udev rules
+      file: path={{ udev_rules_dir }}/80-backup.rules state=absent
+      notify: reload udev
+    - name: uninstall udev helper
+      file: path={{ probe_bin_dir }}/backup_device_probe.sh state=absent
+    - name: install backup script
+      file: path={{ backup_bin_dir }}/lvm_backup.sh state=absent
+  handlers:
+    - include: handlers.yml
