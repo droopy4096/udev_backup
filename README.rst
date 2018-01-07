@@ -1,11 +1,16 @@
-Inspired by `doozan forum post <https://forum.doozan.com/read.php?2,24139,24244,quote=1>`_
+Inspired by `doozan forum post <https://forum.doozan.com/read.php?2,24139,24244,quote=1>`_ this is a udev-based backup 
+system that automatically backs up to a pre-defined LVM volume on USB drive.
+
+System checks whether plugged in USB drive has an LVM volume group with a pre-defined name ( backup_volume_group_name )
+then it checks whether that VG contains LV with name of "<hostnme>_backup". If it does - backup is initiated. After backup
+is completed - VG gets deactivated for safe USB unplug.
 
 Requirements
 ============
 
 * ansible
 * jq
-* LVM
+* LVM 
 * cut
 * test ( "[" )
 * rsync
