@@ -1,0 +1,1 @@
+localhost ansible_connection=local backup_volume_group_name=vg_zalman_ve200se

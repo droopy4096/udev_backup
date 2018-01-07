@@ -3,6 +3,7 @@ Inspired by `doozan forum post <https://forum.doozan.com/read.php?2,24139,24244,
 Requirements
 ============
 
+* ansible
 * jq
 * LVM
 * cut
@@ -30,10 +31,29 @@ Installation
 Ansible
 -------
 
-The most basic invocation is::
+Recommended way would be to generate inventory file (my_inventory)::
 
-  ansible-playbook -i localhost, -c local install.yml
+  localhost ansible_connection=local udev_rules_dir=/tmp/udev backup_volume_group_name=backup_vg
 
-A bit more sophisticated one would look more like::
+followed by ansible-playbook invocation::
+  
+  ansible-playbook -v -b -K  -i my_inventory install.yml
+
+for uninstall things are just as simple::
+
+  ansible-playbook -v -b -K  -i my_inventory uninstall.yml
+
+More manual process would look more like::
 
    ansible-playbook -i localhost, -c local -e 'udev_rules_dir=/tmp/udev' -e 'backup_volume_group_name=backup_vg' install.yml
+
+note that for uninstall you'd have to reproduce some of the above options::
+  
+   ansible-playbook -i localhost, -c local -e 'udev_rules_dir=/tmp/udev' uninstall.yml
+
+which is complicated if you installed software quite a while ago and can't recall all the params.
+
+Manual
+------
+
+it is possible to install most components manually. For now just follow ansible playbooks to mimic behavior, however you're loosing jinja templates and nice level of automation ansible brings to the entire process
