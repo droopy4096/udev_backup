@@ -13,6 +13,17 @@ Requirements
 Outline
 =======
 
+there are 3 main pieces:
+
+* udev rules 
+* udev helper script
+* backup script
+
+80-backup.rules.j2
+------------------
+
+Jinja template for Udev rules needed for the function of this system
+
 backup_device_probe.sh 
 ----------------------
 
