@@ -20,7 +20,7 @@ alsa_volume_save(){
 
 alsa_volume_set(){
   VOL=$1
-  amixer cset iface=MIXER,name="Master Playback Volume" $VOL
+  amixer cset iface=MIXER,name="Master Playback Volume" $VOL > /dev/null
 }
 
 alsa_volume_bump(){
