@@ -2,3 +2,4 @@
 *.rules
 .vscode
 *.retry
+*inventory
