@@ -15,9 +15,11 @@ pkg_state: present
 apt_packages:
   - jq
   - rsync 
+  - alsa-utils
 rpm_packages:
   - jq
   - rsync
+  - alsa-utils
 backup_locations:
   - /etc
   - /home

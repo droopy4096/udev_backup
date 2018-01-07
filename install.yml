@@ -26,5 +26,9 @@
       file: path={{ backup_config_dir }} state=directory
     - name: configure backup 
       template: src=paths.j2 dest={{ backup_config_dir }}/paths
+
+    - name: add completion sound
+      copy: src=tada.wav dest={{ backup_config_dir }}/finish.wav
+
   handlers:
     - include: handlers.yml
