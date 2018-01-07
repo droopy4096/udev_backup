@@ -1,0 +1,15 @@
+---
+
+udev_rules_dir: /etc/udev/rules.d
+# Where to install udev probe shell script
+probe_bin_dir: /usr/local/sbin
+# where to install backup script itself
+backup_bin_dir: /usr/local/sbin
+# we'll be using pkg_state to remove packages
+pkg_state: present
+apt_packages:
+  - jq
+  - rsync 
+rpm_packages:
+  - jq
+  - rsync

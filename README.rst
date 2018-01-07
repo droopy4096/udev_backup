@@ -30,7 +30,10 @@ Installation
 Ansible
 -------
 
-::
+The most basic invocation is::
 
   ansible-playbook -i localhost, -c local install.yml
 
+A bit more sophisticated one would look more like::
+
+   ansible-playbook -i localhost, -c local -e 'udev_rules_dir=/tmp/udev' -e 'backup_volume_group_name=backup_vg' install.yml

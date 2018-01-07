@@ -1,5 +1,5 @@
 ---
 
 - name: Install dependencies
-  yum: name={{ item }} state=present
+  yum: name={{ item }} state={{ pkg_state }}
   with_items: "{{ rpm_packages }}"

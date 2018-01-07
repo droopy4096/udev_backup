@@ -1,5 +1,5 @@
 ---
 
 - name: install packages
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state={{ pkg_state }}
   with_items: "{{ apt_packages }}"

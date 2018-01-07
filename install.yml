@@ -1,14 +1,20 @@
 ---
 
 - hosts: all
-  vars:
-    udev_rules_dir: /etc/udev/rules.d
-    apt_packages:
-      - jq
-      - rsync 
-    rpm_packages:
-      - jq
-      - rsync
+###   vars:
+###     udev_rules_dir: /etc/udev/rules.d
+###     # Where to install udev probe shell script
+###     probe_bin_dir: /usr/local/sbin
+###     # where to install backup script itself
+###     backup_bin_dir: /usr/local/sbin
+###     # we'll be using pkg_state to remove packages
+###     pkg_state: present
+###     apt_packages:
+###       - jq
+###       - rsync 
+###     rpm_packages:
+###       - jq
+###       - rsync
   vars_prompt:
     - name: "backup_volume_group_name"
       prompt: "Backup VG name:"
@@ -20,6 +26,14 @@
     - name: install udev rules
       template: src=80-backup.rules.j2 dest={{ udev_rules_dir }}/80-backup.rules
       notify: reload udev
+    - name: create probe bin dir
+      file: path={{ probe_bin_dir }} state=directory
+    - name: install  udev helper
+      copy: src=backup_device_probe.sh dest={{ probe_bin_dir }}/backup_device_probe.sh
+    - name: create backup bin dir
+      file: path={{ backup_bin_dir }} state=directory
+    - name: install backup script
+      copy: src=lvm_backup.sh dest={{ backup_bin_dir }}/lvm_backup.sh
   handlers:
     - name: reload udev
       service: name=udev state=restarted
