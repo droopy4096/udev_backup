@@ -3,12 +3,12 @@
   become: True
   tasks:
     - name: uninstall udev rules
-      file: path={{ udev_rules_dir }}/80-backup.rules state=absent
+      file: path={{ udev_rules_dir }}/{{ udev_rules_name }} state=absent
       notify: reload udev
     - name: uninstall udev helper
-      file: path={{ probe_bin_dir }}/backup_device_probe.sh state=absent
+      file: path={{ probe_bin_dir }}/{{ probe_bin_name }} state=absent
     - name: uninstall backup script
-      file: path={{ backup_bin_dir }}/lvm_backup.sh state=absent
+      file: path={{ backup_bin_dir }}/{{ backup_bin_name }} state=absent
     - name: unconfigure backup
       file: path={{ backup_config_dir }}/paths state=absent
   handlers:

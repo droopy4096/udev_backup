@@ -1,11 +1,15 @@
 ---
 
 udev_rules_dir: /etc/udev/rules.d
+udev_rules_name: 80-backup.rules
 # Where to install udev probe shell script
 probe_bin_dir: /usr/local/sbin
+probe_bin_name: backup_device_probe.sh
 # where to install backup script itself
 backup_bin_dir: /usr/local/sbin
+backup_bin_name: lvm_backup.sh
 backup_config_dir: /etc/backup
+
 # we'll be using pkg_state to remove packages
 pkg_state: present
 apt_packages:
