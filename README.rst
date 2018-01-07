@@ -31,13 +31,26 @@ Installation
 Ansible (Recommended)
 ---------------------
 
+Steps:
+1. create inventory
+2. configure backup locations
+3. run install playbook
+4. (optional) run uninstall playbook
+
 Recommended way would be to generate inventory file (my_inventory)::
 
   localhost ansible_connection=local udev_rules_dir=/tmp/udev backup_volume_group_name=backup_vg
 
+then configure locations you'd like to backup (backup_locations.yml)::
+
+  backup_locations:
+    - /etc
+    - /home
+    - /var/lib
+
 followed by ansible-playbook invocation::
   
-  ansible-playbook -K -i my_inventory install.yml
+  ansible-playbook -K -e '@backup_locations.yml' -i my_inventory install.yml
 
 for uninstall things are just as simple::
 

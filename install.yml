@@ -5,18 +5,26 @@
 
   tasks:
     - include: "install-{{ ansible_pkg_mgr }}.yml"
+
+    - name: create probe bin dir
+      file: path={{ probe_bin_dir }} state=directory
+    - name: install udev helper (probe)
+      copy: src=backup_device_probe.sh dest={{ probe_bin_dir }}/backup_device_probe.sh
+
+    - name: create backup bin dir
+      file: path={{ backup_bin_dir }} state=directory
+    - name: install backup script
+      copy: src=lvm_backup.sh dest={{ backup_bin_dir }}/lvm_backup.sh
+
     - name: create udev rules directory
       file: path={{ udev_rules_dir }} state=directory
     - name: install udev rules
       template: src=80-backup.rules.j2 dest={{ udev_rules_dir }}/80-backup.rules
       notify: reload udev
-    - name: create probe bin dir
-      file: path={{ probe_bin_dir }} state=directory
-    - name: install  udev helper
-      copy: src=backup_device_probe.sh dest={{ probe_bin_dir }}/backup_device_probe.sh
-    - name: create backup bin dir
-      file: path={{ backup_bin_dir }} state=directory
-    - name: install backup script
-      copy: src=lvm_backup.sh dest={{ backup_bin_dir }}/lvm_backup.sh
+
+    - name: create backup config dir
+      file: path={{ backup_config_dir }} state=directory
+    - name: configure backup 
+      template: src=paths.j2 dest={{ backup_config_dir }}/paths
   handlers:
     - include: handlers.yml
