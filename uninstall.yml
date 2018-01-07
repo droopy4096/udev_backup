@@ -7,7 +7,9 @@
       notify: reload udev
     - name: uninstall udev helper
       file: path={{ probe_bin_dir }}/backup_device_probe.sh state=absent
-    - name: install backup script
+    - name: uninstall backup script
       file: path={{ backup_bin_dir }}/lvm_backup.sh state=absent
+    - name: unconfigure backup
+      file: path={{ backup_config_dir }}/paths state=absent
   handlers:
     - include: handlers.yml
