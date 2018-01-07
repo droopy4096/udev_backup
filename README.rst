@@ -23,3 +23,14 @@ lvm_backup.sh
 within backup volume find volume named <hostname>_backup and if it exists launch backup
 
 using rsync backup data to a timestamped dir. If there was previous backup (symlinked via "current") - it will be used as a base for "delta" backup performed by rsync - all unchanged files will be hard-linked to the originals (implementing simple counter garbage collector in a way) and any new changes added as new files. This way backup size may stay smaller while achieving snapshotting and delta backups.
+
+Installation
+============
+
+Ansible
+-------
+
+::
+
+  ansible-playbook -i localhost, -c local install.yml
+
