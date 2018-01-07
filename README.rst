@@ -28,8 +28,8 @@ using rsync backup data to a timestamped dir. If there was previous backup (syml
 Installation
 ============
 
-Ansible
--------
+Ansible (Recommended)
+---------------------
 
 Recommended way would be to generate inventory file (my_inventory)::
 
@@ -37,11 +37,14 @@ Recommended way would be to generate inventory file (my_inventory)::
 
 followed by ansible-playbook invocation::
   
-  ansible-playbook -v -b -K  -i my_inventory install.yml
+  ansible-playbook -K -i my_inventory install.yml
 
 for uninstall things are just as simple::
 
-  ansible-playbook -v -b -K  -i my_inventory uninstall.yml
+  ansible-playbook -K -i my_inventory uninstall.yml
+
+Ansible (not recommended)
+-------------------------
 
 More manual process would look more like::
 
