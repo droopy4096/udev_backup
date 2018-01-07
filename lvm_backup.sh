@@ -24,7 +24,7 @@ alsa_volume_set(){
 }
 
 alsa_volume_bump(){
-  alsa_volume_set $(($MAX_VOL/2))
+  alsa_volume_set $(($MAX_VOL*2/3))
 }
 
 alsa_volume_restore(){
