@@ -1,7 +1,7 @@
 ---
 
 udev_rules_dir: /etc/udev/rules.d
-udev_rules_name: 80-backup.rules
+udev_rules_name: 99-backup.rules
 # Where to install udev probe shell script
 probe_bin_dir: /usr/local/sbin
 probe_bin_name: backup_device_probe.sh
@@ -22,4 +22,3 @@ rpm_packages:
   - alsa-utils
 backup_locations:
   - /etc
-  - /home

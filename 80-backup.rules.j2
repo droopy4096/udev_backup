@@ -1,12 +1,17 @@
 KERNEL!="sd*", GOTO="media_label_end"
 ENV{ID_TYPE}!="disk", GOTO="media_label_end"
 
-IMPORT{program}="{{ probe_bin_dir }}/{{ probe_bin_name }} %N", ENV{name}="%E{LVM_VG_NAME}"
+#XXX IMPORT{builtin}="blkid"
+#XXX ENV{ID_FS_TYPE}=="LVM2_member|LVM1_member", RUN+="/sbin/lvm pvscan --cache --activate ay --major $major --minor $minor"
+IMPORT{program}="{{ probe_bin_dir }}/{{ probe_bin_name }} %N $major $minor" 
+#, ENV{name}="%E{LVM_VG_NAME}"
 
-ENV{name}!="{{ backup_volume_group_name }} ", GOTO="media_label_end"
+# ACTION=="add", RUN+="/bin/sh -c '(/bin/echo ====; date) >> /var/log/backup_env.log; env >> /var/log/backup_env.log'"
+ENV{BACKUP_LVM_VG_NAME}!="{{ backup_volume_group_name }}", GOTO="media_label_end"
 
-KERNEL=="sd*", SYMLINK+="usb-storage/%E{name}"
+# KERNEL=="sd*", SYMLINK+="usb-storage/%E{name}"
 
-ACTION=="add", RUN+="{{ backup_bin_dir }}/{{ backup_bin_name }} %E{name}"
+ACTION=="add", RUN+="/bin/sh -c '(/bin/echo ====; date) >> /var/log/backup_env.log; env >> /var/log/backup_env.log'"
+ACTION=="add", RUN+="{{ backup_bin_dir }}/{{ backup_bin_name }} %E{BACKUP_LVM_VG_NAME}"
 
 LABEL="media_label_end"

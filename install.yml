@@ -9,12 +9,12 @@
     - name: create probe bin dir
       file: path={{ probe_bin_dir }} state=directory
     - name: install udev helper (probe)
-      copy: src=backup_device_probe.sh dest={{ probe_bin_dir }}/{{ probe_bin_name }}
+      copy: src=backup_device_probe.sh dest={{ probe_bin_dir }}/{{ probe_bin_name }} mode=0755
 
     - name: create backup bin dir
       file: path={{ backup_bin_dir }} state=directory
     - name: install backup script
-      copy: src=lvm_backup.sh dest={{ backup_bin_dir }}/{{ backup_bin_name }}
+      copy: src=lvm_backup.sh dest={{ backup_bin_dir }}/{{ backup_bin_name }} mode=0755
 
     - name: create udev rules directory
       file: path={{ udev_rules_dir }} state=directory

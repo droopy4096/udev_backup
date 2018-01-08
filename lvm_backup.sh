@@ -1,6 +1,11 @@
-#!/bin/bash
+#!/bin/bash -x
 #XXX add trap
 # trap
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>>/var/log/backup.log 2>&1
+
+PATH=${PATH}:/bin:/sbin:/usr/bin:/usr/sbin
 
 BACKUP_VOLUME=${1}
 MY_NAME=$(hostname)
