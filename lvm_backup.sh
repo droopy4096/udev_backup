@@ -68,6 +68,7 @@ then
   mkdir -p ${BACKUP_BASE}
   mount ${BACKUP_DEV} ${BACKUP_BASE}
   ls ${BACKUP_BASE}
+  notify_users -t 0 -u critical -c transfer -a "Udev Backup" "Backup initiating" "Udev-based backup is initiating"
   if [ -L ${BACKUP_BASE}/current ] 
   then
     rsync --files-from=/etc/backup/paths -arv --link-dest=${BACKUP_BASE}/current / ${BACKUP_BASE}/${TIMESTAMP}/
@@ -85,5 +86,6 @@ vgchange -a n ${BACKUP_VOLUME}
 ##XXX device not found errors etc so far...
 # aplay -D pulse /etc/backup/finish.wav
 # notify_users -c transfer.complete --hint=string:sound-file:/etc/backup/finish.wav -a "Udev Backup" "Backup comlete" "Udev-based backup is complete"
+# https://unix.stackexchange.com/questions/251243/what-do-a-notify-send-notification-category-hint-and-version-parameters-mean#381093
 notify_users --hint=string:sound-file:/etc/backup/finish.wav -t 0 -u critical -c transfer.complete -a "Udev Backup" "Backup comlete" "Udev-based backup is complete"
 # alsa_volume_restore
