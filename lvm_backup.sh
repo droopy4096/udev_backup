@@ -18,6 +18,31 @@ vgchange -a y ${BACKUP_VOLUME}
 SAVED_VOL=""
 MAX_VOL=""
 
+_notify_user(){
+  user=$1
+  user_id=$2
+  bus=$3
+  shift 3
+  export DISPLAY=":0"
+  export DBUS_SESSION_BUS_ADDRESS=$bus
+  runuser -p -u $user -- /usr/bin/notify-send "$@"
+}
+
+notify_users(){
+  for mybus in $(/bin/grep -hze '^DBUS_SESSION_BUS_ADDRESS=[a-zA-Z0-9:=,/-]*$' /proc/*/environ | \
+                 tr '\000' "\n" | \
+                 sort -u | \
+                 grep -e '/bus$' | \
+                 sed -e 's/DBUS_SESSION_BUS_ADDRESS=//g' | \
+                 grep -v abstract)
+  do 
+    pre_user=${mybus##*/run/user/}
+    user_id=${pre_user%%/*}
+    user=$(id -nu $user_id)
+    _notify_user $user $user_id $mybus "$@"
+  done | sort -u
+}
+
 alsa_volume_save(){
   SAVED_VOL=$(amixer get Master | grep -F 'Mono:' | cut -d' ' -f 5)
   MAX_VOL=$(amixer get Master | grep -F 'Limits:' | cut -d' ' -f 7)
@@ -55,7 +80,10 @@ fi
 
 vgchange -a n ${BACKUP_VOLUME}
 
-alsa_volume_save
-alsa_volume_bump
-aplay /etc/backup/finish.wav
-alsa_volume_restore
+# alsa_volume_save
+# alsa_volume_bump
+##XXX device not found errors etc so far...
+# aplay -D pulse /etc/backup/finish.wav
+# notify_users -c transfer.complete --hint=string:sound-file:/etc/backup/finish.wav -a "Udev Backup" "Backup comlete" "Udev-based backup is complete"
+notify_users --hint=string:sound-file:/etc/backup/finish.wav -t 0 -u critical -c transfer.complete -a "Udev Backup" "Backup comlete" "Udev-based backup is complete"
+# alsa_volume_restore
